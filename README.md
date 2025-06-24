@@ -15,7 +15,7 @@ source .venv/bin/activate  # Linux/Mac
 .venv\Scripts\activate     # Windows
 
 # Instalar dependências
-pip install pandas pymongo streamlit plotly python-dotenv chardet
+pip install -r requirements.txt
 ```
 
 2. Configurar o MongoDB:
