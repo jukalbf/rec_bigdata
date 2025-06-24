@@ -32,10 +32,9 @@ with st.sidebar:
 def load_data(collection_name):
     return pd.DataFrame(db.get_data(collection_name))
 
-tab1, tab2, tab3, tab4, tab5 = st.tabs([
+tab1, tab2, tab3, tab4 = st.tabs([
     "🏠 Limpeza Urbana",
     "🏗️ Obras e Licenciamento",
-    "🌳 Arborização",
     "👮 Segurança Pública",
     "🏥 Saúde"
 ])
@@ -81,47 +80,6 @@ with tab2:
         st.warning("Dados de obras não disponíveis")
 
 with tab3:
-    st.header("Arborização Urbana e Impacto Ambiental")
-    df_arborizacao = load_data('arborizacao')
-
-    if not df_arborizacao.empty:
-        col1, col2 = st.columns(2)
-        with col1:
-            st.subheader("Distribuição por Bairro")
-            if 'arvores_por_bairro' in df_arborizacao.columns:
-                bairro_count = df_arborizacao['arvores_por_bairro'].value_counts().head(10)
-                fig = px.bar(bairro_count, x=bairro_count.index, y=bairro_count.values)
-                st.plotly_chart(fig, use_container_width=True)
-            else:
-                st.warning("Dados de distribuição por bairro não disponíveis")
-
-        with col2:
-            st.subheader("Espécies Mais Comuns")
-            if 'especies_populares' in df_arborizacao.columns:
-                especie_count = df_arborizacao['especies_populares'].value_counts().head(10)
-                fig = px.pie(especie_count, names=especie_count.index, values=especie_count.values)
-                st.plotly_chart(fig, use_container_width=True)
-            else:
-                st.warning("Dados de espécies não disponíveis")
-
-        # Mapa de localização das árvores
-        if 'latitude' in df_arborizacao.columns and 'longitude' in df_arborizacao.columns:
-            st.subheader("Mapa de Arborização")
-            st.map(df_arborizacao[['latitude', 'longitude']].dropna())
-        else:
-            st.warning("Dados de coordenadas não disponíveis para mapa")
-
-        # Análise temporal
-        if 'ano_plantio' in df_arborizacao.columns:
-            st.subheader("Plantio por Ano")
-            plantio_por_ano = df_arborizacao['ano_plantio'].value_counts().reset_index()
-            plantio_por_ano.columns = ['ano', 'total']
-            fig = px.line(plantio_por_ano, x='ano', y='total', title='Árvores Plantadas por Ano')
-            st.plotly_chart(fig, use_container_width=True)
-    else:
-        st.warning("Dados de arborização não disponíveis")
-
-with tab4:
     st.header("Ocorrências de Segurança Pública")
     df_seguranca = load_data('ocorrencias_seguranca')
 
@@ -157,7 +115,7 @@ with tab4:
     else:
         st.warning("Dados de segurança pública não disponíveis")
 
-with tab5:
+with tab4:
     st.header("Indicadores de Saúde Pública")
     df_saude = load_data('distribuicao_medicamentos')
 
