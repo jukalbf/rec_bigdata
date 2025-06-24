@@ -35,7 +35,7 @@ python -m etl.educacao_saude
 
 4. Iniciar o dashboard:
 ```bash
-streamlit run dashboard.py
+streamlit run app.py
 ```
 
 5. Acessar o dashboard:
